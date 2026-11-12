@@ -1,0 +1,21 @@
+# Optional Render "Blueprint": one web service that serves the API AND the website.
+services:
+  - type: web
+    name: keyfort
+    runtime: node
+    buildCommand: cd frontend && npm install && npm run build && cd ../backend && npm install
+    startCommand: cd backend && node server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TRUST_PROXY
+        value: "1"
+      - key: MONGODB_URI
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: CLIENT_URL
+        sync: false
+      - key: PUBLIC_APP_URL
+        sync: false
